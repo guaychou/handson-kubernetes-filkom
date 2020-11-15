@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handson-web
+  labels:
+    name: handson-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: handson-web
+  template:
+    metadata:
+      name: handson-web
+      labels:
+        name: handson-web
+    spec:
+      containers:
+        - name: handson-web
+          image: lordchou/handson-api:latest
+          ports:
+            - containerPort: 8080

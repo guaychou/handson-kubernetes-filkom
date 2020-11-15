@@ -1,0 +1,9 @@
+---
+
+- name: "Uploading etcd snapshot"
+  copy:
+    src: "{{ playbook_dir }}/backup-etcd-folder/snapshot.db.zip"
+    dest: /opt/rke/etcd-snapshots/snapshot.db.zip
+    owner: root
+    group: root
+    mode: '0600'

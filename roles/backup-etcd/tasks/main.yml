@@ -1,0 +1,7 @@
+---
+
+- name: "Downloading the snapshot"
+  fetch:
+    src: /opt/rke/etcd-snapshots/snapshot.db.zip
+    dest: "{{ playbook_dir }}/backup-etcd-folder/"
+    flat: yes

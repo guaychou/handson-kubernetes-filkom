@@ -1,0 +1,55 @@
+---
+
+- name: Enabling some module
+  blockinfile:
+    path: /etc/modules-load.d/modules.conf
+    block: |
+      ip6_udp_tunnel
+      ip_set
+      ip_set_hash_ip
+      ip_set_hash_net
+      iptable_mangle
+      iptable_raw
+      udp_tunnel
+      veth
+      vxlan
+      xt_comment
+      xt_mark
+      xt_multiport
+      xt_nat
+      xt_recent
+      xt_set
+      xt_statistic
+      xt_tcpudp
+
+- name: Enabling system kernel configuration
+  sysctl:
+    name: "{{ item }}"
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes    
+    sysctl_file: /etc/sysctl.conf
+  with_items:
+    - net.bridge.bridge-nf-call-iptables
+
+- name: Enabling TCP Forwarding in SSHD
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#AllowTcpForwarding'
+    line: AllowTcpForwarding yes
+    
+- name: Restart SSH service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: ssh    
+
+- name: Enable open-iscsi driver for Longhorn
+  systemd:
+    enabled: yes
+    name: iscsid
+        
+- name: Reboot the Machine
+  reboot:
+    reboot_timeout: 60    

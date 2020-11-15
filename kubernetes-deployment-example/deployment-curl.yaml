@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-curl
+  labels:
+    name: test-curl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: test-curl
+  template:
+    metadata:
+      name: test-curl
+      labels:
+        name: test-curl
+    spec:
+      containers:
+        - name: test-curl
+          image: curlimages/curl:latest

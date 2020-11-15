@@ -1,0 +1,48 @@
+---
+
+- name: Install a list of packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+    - unzip
+    - zsh
+    - wget
+    - curl
+    - apt-transport-https
+    - ca-certificates
+    - gnupg-agent
+    - software-properties-common
+       
+- name: Add an gpg signing Docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+
+- name: Install Docker
+  apt:
+    name: "{{ packages_docker }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages_docker:
+    - docker-ce={{ docker_version }}
+    - docker-ce-cli={{ docker_version }}
+    - containerd.io
+    
+- name: Add the user appending the group docker to the user's groups
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Make sure a service is running
+  systemd:
+    state: started
+    name: docker
