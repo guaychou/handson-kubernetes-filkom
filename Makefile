@@ -14,6 +14,8 @@ start-kubernetes:
 	@rke up
 	@echo "Generating secret for metallb deployments . . . "
 	@KUBECONFIG=${PWD}/kube_config_cluster.yml kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)"
+	@echo "Print the dashboard token to login . . ."
+	@KUBECONFIG=${PWD}/kube_config_cluster.yml kubectl get secret -n kubernetes-dashboard $$(kubectl get serviceaccount admin-user -n kubernetes-dashboard -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 --decode > dashboard-token.txt
 	@echo "Kubernetes installation success !!!"
 
 rm-kubernetes:

@@ -106,7 +106,8 @@ addons_include:
   - https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/namespace.yaml
   - https://raw.githubusercontent.com/metallb/metallb/v0.9.3/manifests/metallb.yaml
   - ./kubernetes-deployment-example/metallb-config.yaml
-#- ./kubernetes-deployment-example/longhorn.yaml
+  - https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+  - ./kubernetes-deployment-example/dashboard-admin.yaml
 system_images:
   etcd: rancher/coreos-etcd:v3.4.3-rancher1
   alpine: rancher/rke-tools:v0.1.59
